@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Logger",
+        "repositoryURL": "git://localhost/Logger.git",
+        "state": {
+          "branch": "master",
+          "revision": "19e5929d5bdaa81222cd07731893698de8b6d006",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
