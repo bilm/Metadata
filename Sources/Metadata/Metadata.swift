@@ -14,7 +14,7 @@ fileprivate let logger = Logger[Metadata.self]
 public struct Metadata: Codable {
 	
 	var information: [String:Any]
-	subscript(dynamicMember member:String) ->Any? { information[member] }
+	public subscript(dynamicMember member:String) ->Any? { information[member] }
 	
 }
 
