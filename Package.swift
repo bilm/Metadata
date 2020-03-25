@@ -13,7 +13,7 @@ let package = Package(
             targets: ["Metadata"]),
     ],
     dependencies: [
-		.package(url: "git://localhost/Logger.git", .branch("master")),
+		.package(url: "git@github.com:bilm/Logger.git", .branch("master")),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

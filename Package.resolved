@@ -3,10 +3,10 @@
     "pins": [
       {
         "package": "Logger",
-        "repositoryURL": "git://localhost/Logger.git",
+        "repositoryURL": "git@github.com:bilm/Logger.git",
         "state": {
           "branch": "master",
-          "revision": "19e5929d5bdaa81222cd07731893698de8b6d006",
+          "revision": "5dbf372d3500c6df77b6e9405ab7bd7c43b2cba9",
           "version": null
         }
       }
