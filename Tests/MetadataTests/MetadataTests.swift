@@ -162,6 +162,41 @@ final class MetadataTests: XCTestCase {
 		logger.debug(3, reference)
 	}
 
+	func testConsume() throws {
+		
+		let sha = Data("bilm".utf8)
+		let ref = ReferenceData(author: "liam", imageSHA: sha)
+		logger.debug(0, ref)
+
+		var metadata = Metadata(consume: ref)
+		logger.debug(1, metadata)
+		
+		metadata.label = "mine"
+		logger.debug(2, metadata)
+		
+		let data = try encoder.encode(metadata)
+		let json = String(data: data, encoding: .utf8) ?? "«»"
+		print(3, json)
+		
+		let reference = try decoder.decode(ReferenceData.self, from: data)
+		logger.debug(4, reference)
+		
+	}
+	
+	func testHierarchy() throws {
+		
+		let sha = Data("bilm".utf8)
+		let ref = ReferenceData(author: "liam", imageSHA: sha)
+		var metadata = Metadata()
+		
+		metadata.label = "mine"
+		metadata.details = ref
+
+		let data = try encoder.encode(metadata)
+		let json = String(data: data, encoding: .utf8) ?? "«»"
+		print(0, json)
+		
+	}
 }
 
 //

@@ -14,7 +14,12 @@ fileprivate let logger = Logger[Metadata.self]
 public struct Metadata: Codable {
 	
 	var information: [String:Any]
-	public subscript(dynamicMember member:String) ->Any? { information[member] }
+	public subscript(dynamicMember member:String) ->Any? {
+		
+		get { information[member] }
+		set { information[member] = newValue }
+		
+	}
 	
 }
 
@@ -45,6 +50,23 @@ extension Metadata: ExpressibleByDictionaryLiteral {
 		
 		self.information = Dictionary(uniqueKeysWithValues: elements)
 		
+	}
+	
+}
+
+extension Metadata {
+	
+	public init(consume: Any) {
+		
+		self.init()
+		
+		let mirror = Mirror(reflecting: consume)
+		
+		self.information = mirror
+			.children
+			.filter { $0.label != nil }
+			.reduce(into: [:]) { $0[$1.label!] = $1.value }
+
 	}
 	
 }
