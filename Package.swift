@@ -1,28 +1,19 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "Metadata",
-	platforms: [ .macOS(.v10_12), .iOS(.v10) ],
+	platforms: [ .macOS(.v10_12), .iOS(.v13) ],
     products: [
-        // Products define the executables and libraries produced by a package, and make them visible to other packages.
-        .library(
-            name: "Metadata",
-            targets: ["Metadata"]),
+        .library(name: "Metadata", targets: ["Metadata"]),
     ],
     dependencies: [
-		.package(url: "git@github.com:bilm/Logger.git", .branch("master")),
+		.package(url: "git@github.com:bilm/Logger.git", .branch("swift-5_3")),
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
-        .target(
-            name: "Metadata",
-            dependencies: ["Logger"]),
-        .testTarget(
-            name: "MetadataTests",
-            dependencies: ["Metadata"]),
+        .target(name: "Metadata", dependencies: ["Logger"]),
+        .testTarget(name: "MetadataTests", dependencies: ["Metadata"]),
     ]
 )

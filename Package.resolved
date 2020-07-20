@@ -5,8 +5,8 @@
         "package": "Logger",
         "repositoryURL": "git@github.com:bilm/Logger.git",
         "state": {
-          "branch": "master",
-          "revision": "5dbf372d3500c6df77b6e9405ab7bd7c43b2cba9",
+          "branch": "swift-5_3",
+          "revision": "07829ca933f9f632d53d19f09cd660bb1d4a7cd3",
           "version": null
         }
       }
