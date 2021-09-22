@@ -54,6 +54,19 @@ final class MetadataTests: XCTestCase {
 		XCTAssertNil(parameters[dynamicMember: "birthday"] as? Date)
 		
 	}
+
+	func testKeys() throws {
+		
+		let parameters: Metadata = [
+			"name": "bilm",
+			"age": 54,
+			"married": true
+		]
+		logger.debug(parameters)
+		
+		XCTAssertEqual(Array(parameters.keys).sorted(), ["age", "married", "name"])
+		
+	}
 	
 	func testDecoding() throws {
 		

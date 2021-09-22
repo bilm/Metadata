@@ -13,7 +13,10 @@ fileprivate let logger = Logger[Metadata.self]
 @dynamicMemberLookup
 public struct Metadata: Codable {
 	
-	var information: [String:Any]
+	public typealias Information = [String:Any]
+	public typealias Keys = Information.Keys
+	
+	var information: Information
 	public subscript(dynamicMember member:String) ->Any? {
 		
 		get { information[member] }
@@ -43,8 +46,8 @@ extension Metadata {
 
 extension Metadata: ExpressibleByDictionaryLiteral {
 
-	public typealias Key = String
-	public typealias Value = Any
+	public typealias Key = Information.Key
+	public typealias Value = Information.Value
 	
 	public init(dictionaryLiteral elements: (Key, Value)...) {
 		
@@ -68,5 +71,11 @@ extension Metadata {
 			.reduce(into: [:]) { $0[$1.label!] = $1.value }
 
 	}
+	
+}
+
+extension Metadata {
+	
+	public var keys: Keys { information.keys }
 	
 }
