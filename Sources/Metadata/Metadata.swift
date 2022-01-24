@@ -24,6 +24,12 @@ public struct Metadata: Codable {
 		
 	}
 	
+	public init(information: Information) {
+		
+		self.information = information
+		
+	}
+	
 }
 
 extension Metadata: CustomStringConvertible {

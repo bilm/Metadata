@@ -214,6 +214,19 @@ final class MetadataTests: XCTestCase {
 		print(0, json)
 		
 	}
+	
+	func testViaDictionary() throws {
+		
+		let dict: Metadata.Information = [
+			"name": "bilm",
+			"age": 54,
+			"married": true
+		]
+		
+		let metadata = Metadata(information: dict)
+		print( metadata )
+		
+	}
 }
 
 //
