@@ -1,8 +1,9 @@
 import XCTest
 @testable import Metadata
 
-@testable import Logger
-fileprivate let logger = Logger.DEBUG
+import os
+
+fileprivate let logger = Logger(subsystem: "metadata", category: "creation")
 
 
 final class MetadataTests: XCTestCase {
@@ -45,7 +46,7 @@ final class MetadataTests: XCTestCase {
 			"age": 54,
 			"married": true
 		]
-		logger.debug(parameters)
+		logger.debug("\(parameters)")
 		
 		XCTAssertEqual(parameters.name as? String, "bilm")
 		XCTAssertEqual(parameters.age as? Int, 54)
@@ -62,7 +63,7 @@ final class MetadataTests: XCTestCase {
 			"age": 54,
 			"married": true
 		]
-		logger.debug(parameters)
+		logger.debug("\(parameters)")
 		
 		XCTAssertEqual(Array(parameters.keys).sorted(), ["age", "married", "name"])
 		
@@ -80,7 +81,7 @@ final class MetadataTests: XCTestCase {
 		let data = Data( raw.utf8 )
 		
 		let parameters = try decoder.decode(Metadata.self, from: data)
-		logger.debug(parameters)
+		logger.debug("\(parameters)")
 		
 		XCTAssertEqual(parameters.name as? String, "bilm")
 		XCTAssertEqual(parameters.age as? Int, 54)
@@ -97,10 +98,11 @@ final class MetadataTests: XCTestCase {
 			"age": 54,
 			"married": true
 		]
-		logger.debug(parameters)
+		logger.debug("\(parameters)")
 
 		let data = try encoder.encode(parameters)
-		logger.debug(String(data: data, encoding: .utf8) ?? "«»")
+		let message = String(data: data, encoding: .utf8) ?? "«»"
+		logger.debug("\(message)")
 		
 		
 	}
@@ -118,11 +120,12 @@ final class MetadataTests: XCTestCase {
 			"scores": [ true, true, false ],
 			"address": (nil as String?) as Any
 		]
-		logger.debug(parameters)
+		logger.debug("\(parameters)")
 
 		let data = try encoder.encode(parameters)
-		logger.debug(String(data: data, encoding: .utf8) ?? "«»")
-		print(String(data: data, encoding: .utf8) ?? "«»")
+		let message = String(data: data, encoding: .utf8) ?? "«»"
+		logger.debug("\(message)")
+		print(message)
 		
 		
 	}
@@ -144,7 +147,7 @@ final class MetadataTests: XCTestCase {
 		let data = Data( raw.utf8 )
 		
 		let parameters = try decoder.decode(Metadata.self, from: data)
-		logger.debug(parameters)
+		logger.debug("\(parameters)")
 		
 		XCTAssertEqual(parameters.name as? String, "bilm")
 		XCTAssertEqual(parameters.age as? Int, 54)
@@ -152,7 +155,8 @@ final class MetadataTests: XCTestCase {
 		XCTAssertNil(parameters.employed as? Bool)
 		XCTAssertNil(parameters[dynamicMember: "birthday"] as? Date)
 
-		logger.debug(parameters.spouse as? [String:Any] ?? [:])
+		let message = parameters.spouse as? [String:Any] ?? [:]
+		logger.debug("\(message)")
 
 	}
 
@@ -160,7 +164,7 @@ final class MetadataTests: XCTestCase {
 	
 		let sha = Data("bilm".utf8)
 		let ref = ReferenceData(imageSHA: sha)
-		logger.debug(0, ref)
+		logger.debug("0, \(ref)")
 		
 		let data = try encoder.encode(ref)
 		let json = String(data: data, encoding: .utf8) ?? "«»"
@@ -169,30 +173,30 @@ final class MetadataTests: XCTestCase {
 //		logger.debug( json )
 		
 		let metadata = try decoder.decode(Metadata.self, from: data)
-		logger.debug(2, metadata)
+		logger.debug("2, \(metadata)")
 		
 		let reference = try decoder.decode(ReferenceData.self, from: data)
-		logger.debug(3, reference)
+		logger.debug("3, \(reference)")
 	}
 
 	func testConsume() throws {
 		
 		let sha = Data("bilm".utf8)
 		let ref = ReferenceData(author: "liam", imageSHA: sha)
-		logger.debug(0, ref)
+		logger.debug("0, \(ref)")
 
 		var metadata = Metadata(consume: ref)
-		logger.debug(1, metadata)
+		logger.debug("1, \(metadata)")
 		
 		metadata.label = "mine"
-		logger.debug(2, metadata)
+		logger.debug("2, \(metadata)")
 		
 		let data = try encoder.encode(metadata)
 		let json = String(data: data, encoding: .utf8) ?? "«»"
 		print(3, json)
 		
 		let reference = try decoder.decode(ReferenceData.self, from: data)
-		logger.debug(4, reference)
+		logger.debug("4, \(reference)")
 		
 	}
 	
@@ -258,7 +262,7 @@ extension StringProtocol {
 //
 //
 
-struct ReferenceData: Codable {
+struct ReferenceData: CustomStringConvertible, Codable {
 	
 	var requestId = UUID().uuidString.lowercased()
 	var timestamp = Date()
@@ -268,6 +272,18 @@ struct ReferenceData: Codable {
 
 	var imageSHA: Data?
 
+	var description: String {
+		
+		"ReferenceData("
+		+ "requestId: \(requestId)"
+		+ ", timestamp: \(timestamp)"
+		+ (author.flatMap { ", author: \($0)" } ?? "")
+		+ ", source: \(source)"
+		+ (imageSHA.flatMap { ", imageSHA: \($0)" } ?? "")
+		+ ")"
+		
+	}
+	
 }
 
 public final class AppVersion: CustomStringConvertible, Codable {

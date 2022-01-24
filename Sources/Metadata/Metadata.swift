@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import Logger
+import os
 
-fileprivate let logger = Logger[Metadata.self]
+fileprivate let logger = Logger(subsystem: "metadata", category: "creation")
 
 @dynamicMemberLookup
 public struct Metadata: Codable {
@@ -26,12 +26,18 @@ public struct Metadata: Codable {
 	
 }
 
+extension Metadata: CustomStringConvertible {
+	
+	public var description: String { information.description }
+	
+}
+
 extension Metadata {
 	
 	public init(from decoder: Decoder) throws {
 
 		let generic = try Generic.decode(decoder: decoder)
-		logger.debug( generic )
+		logger.debug( "\(generic)" )
 		
 		self.information = generic
 		

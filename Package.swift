@@ -5,15 +5,13 @@ import PackageDescription
 
 let package = Package(
     name: "Metadata",
-	platforms: [ .macOS(.v10_15), .iOS(.v13) ],
+	platforms: [ .macOS(.v10_15), .iOS(.v14) ],
     products: [
         .library(name: "Metadata", targets: ["Metadata"]),
     ],
-    dependencies: [
-		.package(url: "git@github.com:bilm/Logger.git", .branch("swift-5_3")),
-    ],
+    dependencies: [],
     targets: [
-        .target(name: "Metadata", dependencies: ["Logger"]),
+        .target(name: "Metadata", dependencies: []),
         .testTarget(name: "MetadataTests", dependencies: ["Metadata"]),
     ]
 )
