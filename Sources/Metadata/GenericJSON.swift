@@ -146,6 +146,17 @@ extension Generic {
 			case let float as Float: try container.encode(float)
 			case let date as Date: try container.encode(date)
 			case let data as Data: try container.encode(data)
+			case let value as Encodable: try container.encode(value)
+			case Optional<Any>.none: try container.encodeNil()
+			case Optional<Any>.some(let value):
+				
+				let mirror = Mirror(reflecting: value)
+				let dictionary:[String:Any] = mirror
+					.children
+					.filter { $0.label != nil }
+					.reduce(into: [:]) { $0[$1.label!] = $1.value }
+				try keyed(dictionary, container: container.nestedContainer(keyedBy: Generic.Key.self))
+
 			default:
 				
 				guard case Optional<Any>.none = $0 else {
@@ -193,6 +204,7 @@ extension Generic {
 				case let float as Float: try container.encode(float, forKey: $0)
 				case let date as Date: try container.encode(date, forKey: $0)
 				case let data as Data: try container.encode(data, forKey: $0)
+				case let value as Encodable: try container.encode(value, forKey: $0)
 				case .none: try container.encodeNil(forKey: $0)
 				case .some(let value):
 					

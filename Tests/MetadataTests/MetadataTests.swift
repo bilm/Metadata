@@ -220,7 +220,8 @@ final class MetadataTests: XCTestCase {
 		let dict: Metadata.Information = [
 			"name": "bilm",
 			"age": 54,
-			"married": true
+			"married": true,
+			"id": UUID()
 		]
 		
 		let metadata = Metadata(information: dict)
@@ -277,7 +278,7 @@ extension StringProtocol {
 
 struct ReferenceData: CustomStringConvertible, Codable {
 	
-	var requestId = UUID().uuidString.lowercased()
+	var requestId = UUID()//.uuidString.lowercased()
 	var timestamp = Date()
 
 	var author: String?
